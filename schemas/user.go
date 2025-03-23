@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 type User struct {
 	ID        uint           `gorm: "primaryKey"`
 	Username  string         `gorm: "type: text"`
@@ -29,7 +31,7 @@ func (user *User) HashPassword() error {
 func (user *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err == nil {
-		return false
+		return true
 	}
-	return true
+	return false
 }
